@@ -941,6 +941,40 @@ static void DWConv5x5(benchmark::internal::Benchmark* b) {
   b->Args({1,  7,  7,  5,  5, 1, 1,   16,    1,    1});
 }
 
+static void AllCNNC(benchmark::internal::Benchmark* b) {
+  b->ArgNames({"N", "H", "W", "KH", "KW", "S", "D", "G", "GCin", "GCout"});
+
+  //b->Args({1, 8, 8,  1,  1, 1, 1, 1,    16,   16});
+  /********************* Conv 0 *********************/
+  /*       N   H    W   KH  KW  S  D  G GCin  GCout */
+  b->Args({1, 32, 32,  3,  3, 1, 1, 1,    3,   96});
+  /******************** Conv 1 ********************/
+  /*       N   H    W   KH  KW  S  D  G GCin  GCout */
+  b->Args({1,  32,  32,  3,  3, 1, 1, 1,   96,   96});
+  /******************** Conv 2 ********************/
+  /*       N   H    W   KH  KW  S  D  G GCin  GCout */
+  b->Args({1,  32,  32,  3,  3, 2, 1, 1,   96,  96});
+  /******************** Conv 3 ********************/
+  /*       N   H    W   KH  KW  S  D  G GCin  GCout */
+  b->Args({1,  16,  16,  3,  3, 1, 1, 1,  96,  192});
+  /******************** Conv 4 ********************/
+  /*       N   H    W   KH  KW  S  D  G GCin  GCout */
+  b->Args({1,  16,  16,  3,  3, 1, 1, 1,  192,  192});
+  /******************** Conv 5 ********************/
+  /*       N   H    W   KH  KW  S  D  G GCin  GCout */
+  b->Args({1,  16,  16,  3,  3, 2, 1, 1,  192,  192});
+  /******************** Conv 6 ********************/
+  /*       N   H    W   KH  KW  S  D  G GCin  GCout */
+  b->Args({1,  8,  8,  3,  3, 1, 1, 1,  192,  192});
+  /******************** Conv 7 ********************/
+  /*       N   H    W   KH  KW  S  D  G GCin  GCout */
+  b->Args({1,  8,  8,  1,  1, 1, 1, 1,  192,  192});
+  /******************** Conv 8 ********************/
+  /*       N   H    W   KH  KW  S  D  G GCin  GCout */
+  b->Args({1,  8,  8,  1,  1, 1, 1, 1,  192,  10});
+}
+
+BENCHMARK_CAPTURE(convolution_q8, all_cnn_c, "All CNN Net")->Apply(AllCNNC);
 BENCHMARK_CAPTURE(convolution_q8, mobilenet_v1, "MobileNet v1")->Apply(MobileNetV1);
 BENCHMARK_CAPTURE(convolution_q8, mobilenet_v2, "MobileNet v2")->Apply(MobileNetV2);
 BENCHMARK_CAPTURE(convolution_q8, shufflenet_v1_g1, "ShuffleNet v1 (1 group)")->Apply(ShuffleNetV1G1);
