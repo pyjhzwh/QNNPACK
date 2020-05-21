@@ -59,6 +59,7 @@ static void init(void) {
   };
   qnnp_params.q8conv_xzp = (struct q8conv_xzp_parameters) {
       .gemm = q8gemm_xzp_ukernel_4x8c2__aarch32_neon,
+      .gemm_nousezp = q8gemm_xzp_ukernel_4x8c2__neon,
       .mr = 4,
       .nr = 8,
       .kr = 2,

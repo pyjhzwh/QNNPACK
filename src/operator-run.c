@@ -757,7 +757,7 @@ enum qnnp_status qnnp_run_operator(qnnp_operator_t op, pthreadpool_t threadpool)
           .batch_size = batch_size,
           .a_sum_stride = input_size,
           .requantization_params = op->requantization_params,
-          .ukernel = qnnp_params.q8conv_xzp.gemm,
+          .ukernel = qnnp_params.q8conv_xzp.gemm_nousezp,
       };
       pthreadpool_compute_4d_tiled(
           threadpool,

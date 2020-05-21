@@ -55,6 +55,8 @@ enum qnnp_status qnnp_create_convolution2d_nhwc_q8(
     float input_scale,
     uint8_t kernel_zero_point,
     float kernel_scale,
+    float kernel_bias,
+    bool usezp,
     const uint8_t* kernel,
     const int32_t* bias,
     uint8_t output_zero_point,

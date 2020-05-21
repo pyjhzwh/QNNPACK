@@ -488,7 +488,7 @@ class GemmMicrokernelTester {
 
       const float requantizationScale = 1.0f / float(cScale);
       const union qnnp_q31_requantization_params requantizationParams =
-          qnnp_compute_requantization_params(requantizationScale, cZeroPoint, qmin(), qmax());
+          qnnp_compute_requantization_params(requantizationScale, 0.f, cZeroPoint, qmin(), qmax());
       const union qnnp_q31_requantization_params scalarRequantizationParams =
           qnnp_compute_scalar_requantization_params(requantizationScale, cZeroPoint, qmin(), qmax());
 

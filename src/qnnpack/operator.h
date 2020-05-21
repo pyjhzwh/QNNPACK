@@ -77,6 +77,7 @@ struct qnnp_operator {
   float output_scale;
   uint8_t input_zero_point;
   uint8_t kernel_zero_point;
+  float kernel_bias;
   uint8_t output_zero_point;
   uint8_t output_min;
   uint8_t output_max;
@@ -89,6 +90,8 @@ struct qnnp_operator {
   void* zero_buffer;
   void* zero_pointer;
   void* lookup_table;
+
+  bool usezp;
 
   union {
     union qnnp_q31_requantization_params requantization_params;

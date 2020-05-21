@@ -70,6 +70,7 @@ static void convolution_q8(benchmark::State& state, const char* net) {
     groups, groupInputChannels, groupOutputChannels,
     127, 0.5f,
     127, 0.5f,
+    0.f,true,
     kernel.data(), bias.data(),
     127, 0.5f, 0, 255,
     0 /* flags */, &convolutionObject);

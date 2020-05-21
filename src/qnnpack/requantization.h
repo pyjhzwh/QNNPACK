@@ -55,6 +55,7 @@ static inline union qnnp_q31_requantization_params qnnp_compute_scalar_requantiz
 
 static inline union qnnp_q31_requantization_params qnnp_compute_requantization_params(
   float scale,
+  float scale1,
   uint8_t zero_point,
   uint8_t min,
   uint8_t max)
@@ -71,6 +72,17 @@ static inline union qnnp_q31_requantization_params qnnp_compute_requantization_p
   const int32_t shift = 127 + 31 - 32 - (fp32_to_bits(scale) >> 23);
   assert(shift >= 0);
   assert(shift < 32);
+
+  /* Compute requantization parameters */
+  const uint32_t scale_bits1 = fp32_to_bits(scale1);
+
+  /* Multiplier is in [0x40000000, 0x7FFFFF80] range */
+  const int32_t multiplier1 = (int32_t)(((scale_bits1 & UINT32_C(0x007FFFFF)) | UINT32_C(0x00800000)) << 7);
+  assert(multiplier1 >= INT32_C(0x40000000));
+  assert(multiplier1 <= INT32_C(0x7FFFFF80));
+
+  /* Shift is in [0, 31] range */
+  const int32_t shift1 = 127 + 31 - 32 - (fp32_to_bits(scale1) >> 23);
 
   union qnnp_q31_requantization_params params;
   #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
@@ -105,6 +117,10 @@ static inline union qnnp_q31_requantization_params qnnp_compute_requantization_p
     params.neon.zero_point = (int16_t) (uint16_t) zero_point;
     params.neon.max = max;
     params.neon.min = min;
+    params.neon.multiplier1 = multiplier1;
+    params.neon.right_shift1 = -shift1;
+    params.neon.bias = 0;
+    
   #else
     const uint32_t remainder_mask = (UINT32_C(1) << shift) - UINT32_C(1);
     const uint32_t remainder_threshold = remainder_mask >> 1;

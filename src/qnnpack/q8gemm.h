@@ -56,6 +56,7 @@ DECLARE_Q8GEMM_UKERNEL_FUNCTION(q8gemm_ukernel_4x4c2__sse2)
       size_t c_stride,                               \
       const union qnnp_q31_requantization_params* requantization_params);
 DECLARE_Q8GEMM_XZP_UKERNEL_FUNCTION(q8gemm_xzp_ukernel_4x8c2__neon)
+DECLARE_Q8GEMM_XZP_UKERNEL_FUNCTION(q8gemm_xzp_ukernel_4x8c2_nousezp__neon)
 DECLARE_Q8GEMM_XZP_UKERNEL_FUNCTION(q8gemm_xzp_ukernel_4x8c2__aarch32_neon)
 
 QNNP_INTERNAL void q8sumrows_ukernel_4x__neon(

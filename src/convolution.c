@@ -54,6 +54,8 @@ enum qnnp_status qnnp_create_convolution2d_nhwc_q8(
     float input_scale,
     uint8_t kernel_zero_point,
     float kernel_scale,
+    float kernel_bias,
+    bool usezp,
     const uint8_t* kernel,
     const int32_t* bias,
     uint8_t output_zero_point,
@@ -159,6 +161,7 @@ enum qnnp_status qnnp_create_convolution2d_nhwc_q8(
   }
 
   const float convolution_scale = input_scale * kernel_scale / output_scale;
+  const float convolution_scale1 = input_scale * kernel_bias / output_scale;
   if (convolution_scale >= 1.0f) {
     qnnp_log_error(
       "failed to create convolution with %.7g input scale, %.7g kernel scale, and %.7g output scale: "
@@ -354,11 +357,14 @@ enum qnnp_status qnnp_create_convolution2d_nhwc_q8(
   convolution->group_output_channels = group_output_channels;
 
   convolution->kernel_zero_point = kernel_zero_point;
+  convolution->kernel_bias = kernel_bias;
+
+  convolution->usezp = usezp;
 
   if (ukernel_type == qnnp_ukernel_type_xzp_gemm) {
     convolution->requantization_params =
       qnnp_compute_requantization_params(
-        convolution_scale, output_zero_point, output_min, output_max);
+        convolution_scale, convolution_scale1, output_zero_point, output_min, output_max);
   } else {
     convolution->conv_quantization_params =
       qnnp_compute_conv_quantization_params(

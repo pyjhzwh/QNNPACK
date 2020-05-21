@@ -108,6 +108,9 @@ union qnnp_q31_requantization_params {
     int16_t zero_point;
     uint8_t max;
     uint8_t min;
+    int32_t multiplier1;
+    int32_t right_shift1;
+    float bias;
   } neon;
 #endif /* CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64 */
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
@@ -462,6 +465,7 @@ struct q8conv_parameters {
 
 struct q8conv_xzp_parameters {
   q8gemm_xzp_ukernel_function gemm;
+  q8gemm_xzp_ukernel_function gemm_nousezp;
   /* no conv ukernel */
   uint8_t mr;
   uint8_t nr;

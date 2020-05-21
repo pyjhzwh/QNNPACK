@@ -425,6 +425,7 @@ class ConvolutionOperatorTester {
           groups(), groupInputChannels(), groupOutputChannels(),
           inputZeroPoint, 1.0f /* input scale */,
           kernelZeroPoint, 1.0f /* kernel scale */,
+          0.f /*kernel_bias*/ ,true,
           kernel.data(), bias.data(),
           outputZeroPoint, outputScale, qmin(), qmax(),
           0, &convolution));

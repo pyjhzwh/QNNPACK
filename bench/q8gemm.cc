@@ -267,7 +267,7 @@ class Q8GEMM_XZP : public Q8GEMM {
     aRowSums_.resize(roundUp(mc(), mr()));
     std::fill(aRowSums_.begin(), aRowSums_.end(), 0xFE01);
 
-    requantizationParams_ = qnnp_compute_requantization_params(0.75f, 127, 1, 254);
+    requantizationParams_ = qnnp_compute_requantization_params(0.75f, 0.f, 127, 1, 254);
   }
 
   virtual void TearDown(benchmark::State& state) override

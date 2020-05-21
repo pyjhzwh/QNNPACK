@@ -31,6 +31,7 @@ extern "C" {
       const union qnnp_conv_quantization_params* quantization_params);
 
 DECLARE_Q8CONV_UKERNEL_FUNCTION(q8conv_ukernel_4x8__neon)
+DECLARE_Q8CONV_UKERNEL_FUNCTION(q8conv_ukernel_4x8_nousezp__neon)
 DECLARE_Q8CONV_UKERNEL_FUNCTION(q8conv_ukernel_4x8__aarch32_neon)
 DECLARE_Q8CONV_UKERNEL_FUNCTION(q8conv_ukernel_8x8__aarch64_neon)
 DECLARE_Q8CONV_UKERNEL_FUNCTION(q8conv_ukernel_8x8__neon)
